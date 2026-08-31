@@ -14,3 +14,7 @@ go run cmd/main.go
 ERROS:
 go get github.com/go-sql-driver/mysql (I use this to install the lib)
 go mod tidy (fix dependencies and imports for go.mod and go.sum)
+
+DTO:
+
+Is a dumb object just with values, to transit from layers.

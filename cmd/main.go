@@ -6,30 +6,29 @@ package main
 
 import (
 	"database/sql"
-	"fmt"
 
-	"github.com/leovilani/go-study/internal/order/entity"
 	"github.com/leovilani/go-study/internal/order/infra/database"
+	"github.com/leovilani/go-study/internal/order/usecase"
 )
 
 func main() {
-	order, err := entity.NewOrder("123", 10, 2)
-	if err != nil {
-		panic(err)
-	}
-	err = order.CalculateFinalPrice()
-	if err != nil {
-		panic(err)
-	}
-	fmt.Printf("The final price is: %f", order.FinalPrice)
-
 	db, err := sql.Open("mysql", "root:root@tcp(mysql:3306)/orders")
 	if err != nil {
 		panic(err)
 	}
 	repository := database.NewOrderRepository(db)
-	err = repository.Save(order)
+	uc := usecase.NewCalculateFinalPriceUsecase(repository)
+
+	defer db.Close()
+
+	input := usecase.OrderInputDTO{
+		ID:    "1234",
+		Price: 100,
+		Tax:   10,
+	}
+	output, err := uc.Execute(input)
 	if err != nil {
 		panic(err)
 	}
+	println(output.FinalPrice)
 }
