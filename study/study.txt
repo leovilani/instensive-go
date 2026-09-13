@@ -1,0 +1,38 @@
+MYSQL:
+
+docker compose exec mysql bash (open the mysql in the docker)
+use orders (inside the cmd to use this database in the mysql)
+CREATE TABLE orders (id varchar (255) NOT NULL, price float NOT NULL, tax float NOT NULL, final_price float NOT NULL, primary key (id));
+ALTER TABLE orders ADD COLUMN tax float NOT NULL;
+
+
+APP:
+
+to run the app:
+    - docker compose exec goapp bash
+    - go run cmd/main.go 
+
+ERROS:
+go get github.com/go-sql-driver/mysql (I use this to install the lib)
+go mod tidy (fix dependencies and imports for go.mod and go.sum)
+
+DTO:
+
+Is a dumb object just with values, to transit from layers.
+
+POINTER:
+A pointer stores the memory address of a value. If I pass a struct by value to a function, Go copies that struct, so changes happen only inside that function. If I pass a pointer to the struct, the function can modify the original value through that pointer.
+
+
+CONCURRENCY AND PARALLELISM
+Quick summary:
+    - When several tasks are executed at the same time, that is parallelism (for example, typing and speaking at the same time).
+    - When one task runs for a bit and then another task runs for a bit, that is concurrency (for example, typing, stopping to speak, and then going back to typing).
+When we have two threads working together, concurrency can become a big headache, because a variable being used for calculations in thread A can be modified by thread B and affect thread A's calculations.
+One way to work around concurrency problems is with a MUTEX (Mutual Exclusion), where thread A puts a LOCK on the variable so other threads cannot change it.
+In Go, channels are used for communication between goroutines. Instead of sharing memory directly, one goroutine sends values through a channel and another goroutine receives those values. This helps coordinate work safely between goroutines.
+Using threads is expensive. Every time we need to call the operating system to create a thread, around 1MB is spent and it is not easy. So Go has the GO RUNTIME, where it creates its own threads managed by itself and not by the Operating System, creating GO ROUTINES.
+Goroutines are lightweight executions managed by the Go runtime. They are not OS threads, but the runtime schedules many goroutines on top of a smaller number of OS threads. A goroutine starts with a small stack, usually around 2KB.
+
+
+The prometheus get info from the RabbitMQ and give metrics.

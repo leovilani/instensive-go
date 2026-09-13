@@ -19,7 +19,7 @@ type Order struct {
 }
 
 func NewOrder(id string, price float64, tax float64) (*Order, error) {
-	// & is the pointer (ponteiro)
+	// & is the pointer.
 	order := &Order{
 		ID:    id,
 		Price: price,
