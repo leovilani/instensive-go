@@ -4,7 +4,7 @@ docker compose exec mysql bash (open the mysql in the docker)
 use orders (inside the cmd to use this database in the mysql)
 CREATE TABLE orders (id varchar (255) NOT NULL, price float NOT NULL, tax float NOT NULL, final_price float NOT NULL, primary key (id));
 ALTER TABLE orders ADD COLUMN tax float NOT NULL;
-
+mysql -uroot -p orders (login in mysql and in the specific table)
 
 APP:
 
@@ -36,3 +36,9 @@ Goroutines are lightweight executions managed by the Go runtime. They are not OS
 
 
 The prometheus get info from the RabbitMQ and give metrics.
+
+
+RABBITMQ:
+
+We dont send a message direct to RabbitMQ, we use a exchange and that exchange route the message to the queue.
+to test the RabbitMQ I have to run the producer to send the messages and the app to read this messages and save in the database.
